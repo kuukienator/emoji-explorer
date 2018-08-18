@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
 
 // import EmojiGroup from './components/EmojiGroup/EmojiGroup';
@@ -25,44 +26,62 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="header">
-                    <h1>Emoji Explorer</h1>
-                </div>
+            <Router>
+                <div className="container">
+                    <div className="header">
+                        <h1>Emoji Explorer</h1>
+                    </div>
 
-                {!this.state.activeGroup && (
-                    <EmojiGroupButtons
-                        groups={this.state.emojiData}
-                        setGroupHandler={activeGroupName =>
-                            this.setState({
-                                activeGroupName,
-                                activeGroup: this.state.emojiData.find(
-                                    g => g.name === activeGroupName
-                                )
-                            })
-                        }
+                    <Route
+                        exact
+                        path="/"
+                        render={props => (
+                            <EmojiGroupButtons
+                                {...props}
+                                groups={this.state.emojiData}
+                            />
+                        )}
                     />
-                )}
+                    <Route
+                        exact
+                        path="/group/:groupName"
+                        render={props => (
+                            <EmojiSubgroupButtons
+                                {...props}
+                                group={props.match.params.groupName}
+                                subgroups={
+                                    this.state.emojiData.find(
+                                        e =>
+                                            e.name ===
+                                            props.match.params.groupName
+                                    ).subgroups
+                                }
+                            />
+                        )}
+                    />
 
-                {!this.state.activeSubgroup &&
-                    this.state.activeGroup && (
-                        <EmojiSubgroupButtons
-                            subgroups={this.state.activeGroup.subgroups}
-                            setSubgroupHandler={activeSubgroupName =>
-                                this.setState({
-                                    activeSubgroupName,
-                                    activeSubgroup: this.state.activeGroup.subgroups.find(
-                                        sb => sb.name === activeSubgroupName
+                    <Route
+                        exact
+                        path="/group/:groupName/subgroup/:subgroupName"
+                        render={props => (
+                            <EmojiSubgroup
+                                {...props}
+                                subgroup={this.state.emojiData
+                                    .find(
+                                        e =>
+                                            e.name ===
+                                            props.match.params.groupName
                                     )
-                                })
-                            }
-                        />
-                    )}
-
-                {this.state.activeSubgroup && (
-                    <EmojiSubgroup subgroup={this.state.activeSubgroup} />
-                )}
-            </div>
+                                    .subgroups.find(
+                                        e =>
+                                            e.name ===
+                                            props.match.params.subgroupName
+                                    )}
+                            />
+                        )}
+                    />
+                </div>
+            </Router>
         );
     }
 }
