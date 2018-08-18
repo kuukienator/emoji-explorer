@@ -1,0 +1,54 @@
+h1 {
+  margin: 0;
+}
+
+.container {
+  overflow-x: hidden;
+}
+
+.header {
+  width: 100%;
+  background: #ff9100;
+  color: white;
+  text-align: center;
+  padding: .5em 0;
+}
+
+.emojiGroup {
+  font-weight: bold;
+  font-size: 1.5em;
+  background: #ffab40;
+  width: 100%;
+  color: white;
+  padding: .5em 0;
+}
+
+.emojiSubgroup {
+  font-size: 1.2em;
+  width: 100%;
+  text-align: center;
+  padding: .5em 0;
+}
+
+.emojiGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.emojiEntry {
+  text-align: center;
+  margin: 0.3em;
+  padding: 0.2em;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+}
+
+.emojiEntry-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.emojiEntry-emoji {
+  font-size: 3em;
+}
