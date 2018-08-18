@@ -78,6 +78,7 @@ class App extends Component {
     }
 
     updateHistory() {
+        window.scrollTo({ top: 0 });
         window.history.pushState(
             {
                 activeGroupName: this.state.activeGroupName,
