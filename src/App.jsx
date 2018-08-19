@@ -29,6 +29,7 @@ class App extends Component {
         );
 
         this.updateHistory = this.updateHistory.bind(this);
+        this.replaceHistory = this.replaceHistory.bind(this);
         this.historyPopHandler = this.historyPopHandler.bind(this);
 
         this.updateHistory();
@@ -38,6 +39,18 @@ class App extends Component {
     updateHistory() {
         window.scrollTo({ top: 0 });
         window.history.pushState(
+            {
+                activeGroupName: this.state.activeGroupName,
+                activeSubgroupName: this.state.activeSubgroupName
+            },
+            '',
+            generateNumericalUrlFromState(this.state)
+        );
+    }
+
+    replaceHistory() {
+        window.scrollTo({ top: 0 });
+        window.history.replaceState(
             {
                 activeGroupName: this.state.activeGroupName,
                 activeSubgroupName: this.state.activeSubgroupName
@@ -75,10 +88,13 @@ class App extends Component {
                     <span
                         className="headerIcon"
                         onClick={e =>
-                            this.setState({
-                                activeSubgroupName: '',
-                                activeSubgroup: null
-                            })
+                            this.setState(
+                                {
+                                    activeSubgroupName: '',
+                                    activeSubgroup: null
+                                },
+                                this.replaceHistory
+                            )
                         }
                     >
                         ◀
@@ -94,12 +110,15 @@ class App extends Component {
                     <span
                         className="headerIcon"
                         onClick={e =>
-                            this.setState({
-                                activeGroupName: '',
-                                activeGroup: null,
-                                activeSubgroupName: '',
-                                activeSubgroup: null
-                            })
+                            this.setState(
+                                {
+                                    activeGroupName: '',
+                                    activeGroup: null,
+                                    activeSubgroupName: '',
+                                    activeSubgroup: null
+                                },
+                                this.replaceHistory
+                            )
                         }
                     >
                         ◀

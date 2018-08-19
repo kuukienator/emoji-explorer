@@ -22,10 +22,10 @@ export const getActiveSubgroupByName = (name, group) =>
  * @returns {string}
  */
 export const generateNumericalUrlFromState = state => {
-    let baseUrl = '';
+    let baseUrl = '/';
 
     if (state.activeGroupName.length) {
-        baseUrl += `/${state.emojiData.findIndex(
+        baseUrl += `${state.emojiData.findIndex(
         g => g.name === state.activeGroupName
     ) + 1}`;
     }
