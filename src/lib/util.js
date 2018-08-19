@@ -1,9 +1,26 @@
+/**
+ * 
+ * @param {string} name 
+ * @param {Array<{name:string}>} data
+ * @returns {object}
+ */
 export const getActiveGroupByName = (name, data) =>
     data.find(g => g.name === name) || null;
 
+/**
+ * 
+ * @param {string} name 
+ * @param {{subgroups:Array<{name:string}>}} group 
+ * @returns {object}
+ */
 export const getActiveSubgroupByName = (name, group) =>
     group ? group.subgroups.find(sb => sb.name === name) : null;
 
+/**
+ * 
+ * @param {{activeGroupName: string, activeSubgroupName:string, emojiData: object, activeGroup:{subgroups: Array}}} state
+ * @returns {string}
+ */
 export const generateNumericalUrlFromState = state => {
     let baseUrl = '';
 
@@ -22,6 +39,12 @@ export const generateNumericalUrlFromState = state => {
     return baseUrl;
 };
 
+/**
+ * 
+ * @param {string} path 
+ * @param {object} emojiData
+ * @returns {activeGroupName: string, activeSubgroupName:string, activeSubgroup: {name:string, emojis: Array}, activeGroup:{subgroups: Array}}}
+ */
 export const getStateFromPath = (path, emojiData) => {
     const [groupId, subgroupId] = path
         .split('/')
