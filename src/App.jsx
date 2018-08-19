@@ -70,11 +70,47 @@ class App extends Component {
 
     getActiveHeadline() {
         if (this.state.activeSubgroup) {
-            return this.state.activeSubgroupName.split('-').join(' ');
+            return (
+                <div>
+                    <span
+                        className="headerIcon"
+                        onClick={e =>
+                            this.setState({
+                                activeSubgroupName: '',
+                                activeSubgroup: null
+                            })
+                        }
+                    >
+                        ◀
+                    </span>
+                    <span className="headerText">
+                        {this.state.activeSubgroupName.split('-').join(' ')}
+                    </span>
+                </div>
+            );
         } else if (this.state.activeGroup) {
-            return this.state.activeGroupName;
+            return (
+                <div>
+                    <span
+                        className="headerIcon"
+                        onClick={e =>
+                            this.setState({
+                                activeGroupName: '',
+                                activeGroup: null,
+                                activeSubgroupName: '',
+                                activeSubgroup: null
+                            })
+                        }
+                    >
+                        ◀
+                    </span>
+                    <span className="headerText">
+                        {this.state.activeGroupName}
+                    </span>
+                </div>
+            );
         } else {
-            return 'Emoji Explorer';
+            return <span className="headerText">Emoji Explorer</span>;
         }
     }
 

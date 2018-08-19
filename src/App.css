@@ -7,13 +7,23 @@
   background: #ff9100;
   color: white;
   text-align: center;
-  padding: 0 1em;
+  /* padding: 0 1em; */
   text-transform: lowercase;
   position: fixed;
   height: 50px;
   display: flex;
   align-items: center;
   z-index: 1;
+  border-bottom: 2px solid #ff3d00;
+  font-family: 'Playfair Display', serif;
+}
+
+.headerIcon {
+  padding-left: 0.5em;
+}
+
+.headerText {
+  margin-left: 0.5em;
 }
 
 .content {
