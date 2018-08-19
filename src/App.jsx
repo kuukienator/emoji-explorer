@@ -110,53 +110,65 @@ class App extends Component {
         }
     }
 
+    getActiveHeadline() {
+        if (this.state.activeSubgroup) {
+            return this.state.activeSubgroupName.split('-').join(' ');
+        } else if (this.state.activeGroup) {
+            return this.state.activeGroupName;
+        } else {
+            return 'Emoji Explorer';
+        }
+    }
+
     render() {
         return (
             <div className="container">
                 <div className="header">
-                    <h1>Emoji Explorer</h1>
+                    <h1>{this.getActiveHeadline()}</h1>
                 </div>
 
-                {!this.state.activeGroup && (
-                    <EmojiGroupButtons
-                        groups={this.state.emojiData}
-                        setGroupHandler={activeGroupName => {
-                            this.setState(
-                                {
-                                    activeGroupName,
-                                    activeGroup: getActiveGroupByName(
-                                        activeGroupName,
-                                        this.state.emojiData
-                                    )
-                                },
-                                this.updateHistory
-                            );
-                        }}
-                    />
-                )}
-
-                {!this.state.activeSubgroup &&
-                    this.state.activeGroup && (
-                        <EmojiSubgroupButtons
-                            subgroups={this.state.activeGroup.subgroups}
-                            setSubgroupHandler={activeSubgroupName =>
+                <div className="content">
+                    {!this.state.activeGroup && (
+                        <EmojiGroupButtons
+                            groups={this.state.emojiData}
+                            setGroupHandler={activeGroupName => {
                                 this.setState(
                                     {
-                                        activeSubgroupName,
-                                        activeSubgroup: getActiveSubgroupByName(
-                                            activeSubgroupName,
-                                            this.state.activeGroup
+                                        activeGroupName,
+                                        activeGroup: getActiveGroupByName(
+                                            activeGroupName,
+                                            this.state.emojiData
                                         )
                                     },
                                     this.updateHistory
-                                )
-                            }
+                                );
+                            }}
                         />
                     )}
 
-                {this.state.activeSubgroup && (
-                    <EmojiSubgroup subgroup={this.state.activeSubgroup} />
-                )}
+                    {!this.state.activeSubgroup &&
+                        this.state.activeGroup && (
+                            <EmojiSubgroupButtons
+                                subgroups={this.state.activeGroup.subgroups}
+                                setSubgroupHandler={activeSubgroupName =>
+                                    this.setState(
+                                        {
+                                            activeSubgroupName,
+                                            activeSubgroup: getActiveSubgroupByName(
+                                                activeSubgroupName,
+                                                this.state.activeGroup
+                                            )
+                                        },
+                                        this.updateHistory
+                                    )
+                                }
+                            />
+                        )}
+
+                    {this.state.activeSubgroup && (
+                        <EmojiSubgroup subgroup={this.state.activeSubgroup} />
+                    )}
+                </div>
             </div>
         );
     }
