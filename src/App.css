@@ -13,6 +13,7 @@
   height: 50px;
   display: flex;
   align-items: center;
+  z-index: 1;
 }
 
 .content {
@@ -38,13 +39,37 @@
 .emojiGrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px;
+  padding: 10px;
 }
 
 .emojiEntry {
   text-align: center;
+  position: relative;
   margin: 0.3em;
   padding: 0.5em;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+}
+
+.emojiEntry.hasVariations:after,
+.emojiEntry.hasVariations:before {
+  content: '';
+  display: block;
+  height: 6px;
+  position: absolute;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+}
+
+.emojiEntry.hasVariations:after {
+  bottom: -6px;
+  left: 5%;
+  right: 5%;
+}
+
+.emojiEntry.hasVariations:before {
+  bottom: -12px;
+  left: 10%;
+  right: 10%;
 }
 
 .emojiEntry-text {
