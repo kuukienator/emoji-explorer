@@ -16,11 +16,11 @@ const EMOJI_URL = 'https://unicode.org/Public/emoji/11.0/emoji-test.txt';
  */
 const getEmojiNameFromLine = line =>
     line
-        .split('#')[1]
-        .trim()
-        .split(' ')
-        .splice(1)
-        .join(' ');
+    .split('#')[1]
+    .trim()
+    .split(' ')
+    .splice(1)
+    .join(' ');
 
 /**
  *
@@ -104,7 +104,7 @@ const parseTextFile = data => {
         if (line.startsWith('#')) {
             if (line.includes('subgroup:')) {
                 if (currentSubGroup) {
-                    currentGroup.subgroups.push(currentSubGroup);
+                    currentGroup.subgroups.push(groupEmojiVariations(currentSubGroup));
                 }
 
                 currentSubGroup = {
@@ -113,7 +113,7 @@ const parseTextFile = data => {
                 };
             } else if (line.includes('group:')) {
                 if (currentGroup && currentSubGroup) {
-                    currentGroup.subgroups.push(currentSubGroup);
+                    currentGroup.subgroups.push(groupEmojiVariations(currentSubGroup));
                     currentSubGroup = null;
                 }
 
@@ -126,7 +126,7 @@ const parseTextFile = data => {
                     subgroups: []
                 };
             } else if (line.includes('EOF')) {
-                currentGroup.subgroups.push(currentSubGroup);
+                currentGroup.subgroups.push(groupEmojiVariations(currentSubGroup));
                 groups.push(currentGroup);
             }
         } else {
@@ -139,6 +139,31 @@ const parseTextFile = data => {
 
     return Promise.resolve(groups);
 };
+
+/**
+ * 
+ * @param {{name:string, emojis:Array<{name:string, emoji:string}>}} subgroup 
+ * @returns {{name:string, emojis:Array<{name:string, emoji:string, variations:Array<{name:string, emoji:string}>}>}}
+ */
+const groupEmojiVariations = subgroup => {
+    return {
+        name: subgroup.name,
+        emojis: subgroup.emojis.reduce((emojis, currentEmoji) => {
+            if (currentEmoji.name.includes(':')) {
+                const [main, variation] = currentEmoji.name.split(':');
+                const activeEmoji = emojis.find(emoji => emoji.name === main.trim());
+                if (activeEmoji) {
+                    activeEmoji.variations = activeEmoji.variations || [];
+                    activeEmoji.variations.push(currentEmoji);
+                }
+            } else {
+                emojis.push(currentEmoji);
+            }
+
+            return emojis;
+        }, [])
+    };
+}
 
 getTextFile(EMOJI_URL)
     .then(parseTextFile)
